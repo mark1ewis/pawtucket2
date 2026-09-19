@@ -29,12 +29,12 @@
 			{{{ca_objects.type_id%height=30px&id=ca_objects_type_id}}}
 		</div>
 	</div>
-	<div class='row'>
-		<div class="advancedSearchField col-sm-12">
-			<label for='ca_objects_date' class='formLabel' data-toggle="popover" data-trigger="hover" data-content="<?php _p('Search records of a particular date or date range.') ?>"><?php _p('Date range <i>(e.g. 1970-1979)</i>') ?></label>
-			{{{ca_objects.date%width=200px&height=1}}}
-		</div>
-	</div>
+	<?php
+	/*
+		Date range search field hidden: ca_objects.date is configured as a Text datatype
+		rather than DateRange, so range queries (e.g. 1970-1979) do not evaluate properly.
+	*/
+	?>
 	<div class='row'>
 		<div class="advancedSearchField col-sm-12">
 			<label for='ca_collections_preferred_labels' class='formLabel' data-toggle="popover" data-trigger="hover" data-content="<?php _p('Search records within a particular collection.') ?>"><?php _p('Collection') ?></label>
