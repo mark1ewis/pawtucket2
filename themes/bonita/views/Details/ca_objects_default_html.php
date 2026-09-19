@@ -93,6 +93,7 @@
 				</ifdef>}}}
 				
 				{{{<ifdef code="ca_objects.date"><div class="unit"><label>Material Date(s)</label>^ca_objects.date</div></ifdef>}}}
+				{{{<ifdef code="ca_objects.quantity"><div class="unit"><label>Extent</label>^ca_objects.quantity%delimiter=;_</div></ifdef>}}}
 
 				{{{<ifdef code="ca_objects.rights">
 					<div class='unit'><label>Rights</label>
