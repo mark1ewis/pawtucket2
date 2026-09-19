@@ -40,7 +40,10 @@
 				<?= ((CookieOptionsManager::cookieManagerEnabled()) ? "<li>".caNavLink($this->request, _t("Manage Cookies"), "", "", "Cookies", "manage")."</li>" : ""); ?>
 				<li><?= caNavLink($this->request, _t("About"), "", "", "About", "Index"); ?></li>
 				<li><?= caNavLink($this->request, _t("Collections"), "", "", "Collections", "index"); ?></li>
+				<!-- Contact link hidden from footer. To re-enable, uncomment the line below:
 				<li><?= caNavLink($this->request, _t("Contact"), "", "", "Contact", "Form"); ?></li>
+				-->
+				<li><?= caNavLink($this->request, _t("Take Down Policy"), "", "", "About", "takedown"); ?></li>
 				<li><a href="https://bonitahistoricalsociety.org" target="_blank" rel="noopener noreferrer">Bonita Museum &amp; Cultural Center</a></li>
 			</ul>
 			<div><small>&copy; <?= date('Y'); ?> Bonita Historical Society. Powered by <a href="https://www.collectiveaccess.org" target="_blank" rel="noopener noreferrer">CollectiveAccess</a>.</small></div>
