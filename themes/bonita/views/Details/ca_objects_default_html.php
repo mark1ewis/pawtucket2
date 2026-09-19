@@ -101,9 +101,9 @@
 					</div>
 				</ifdef>}}}
 
-				{{{<ifdef code="ca_objects.internal_notes">
+				{{{<ifdef code="ca_objects.public_notes">
 					<div class='unit'><label>Notes</label>
-						<span class="trimText">^ca_objects.internal_notes</span>
+						<span class="trimText">^ca_objects.public_notes</span>
 					</div>
 				</ifdef>}}}
 			

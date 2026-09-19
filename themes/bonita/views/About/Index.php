@@ -16,8 +16,7 @@
 			<div style="background-color: #f9f9f9; padding: 15px; border-radius: 4px; border: 1px solid #eee; margin-bottom: 20px;">
 				<h3 style="margin-top: 0;">Location</h3>
 				<address>
-					<strong>Bonita Historical Society</strong><br>
-					Bonita Museum &amp; Cultural Center<br>
+					<strong>Bonita Museum &amp; Cultural Center</strong><br>
 					4355 Bonita Road<br>
 					Bonita, CA 91902<br>
 					<span class="info">Phone:</span> (619) 267-5141<br>
