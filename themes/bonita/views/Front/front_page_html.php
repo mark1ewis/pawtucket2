@@ -32,13 +32,10 @@
 		print $this->render("Front/featured_set_slideshow_html.php");
 ?>
 	<div class="row">
-		<div class="col-sm-8">
+		<div class="col-sm-12">
 			<h1>Bonita Historical Society Archives</h1>
-			<p>Our online catalog provides public access to our catalogued archival collections, photographs, and historical artifacts. Please keep in mind that our online catalog is a work in progress and represents only a portion of our collection. Our archival materials are open to the public for research by appointment. If you have any questions about our materials or would like to do in-person research, please contact our archivist.</p>
-		</div><!--end col-sm-8-->
-		<div class="col-sm-4">
-<?php
-		print $this->render("Front/gallery_set_links_html.php");
-?>
-		</div> <!--end col-sm-4-->	
+			<p>We are committed to preserving and making accessible papers, artifacts, photographs, newspapers, and other objects about Bonita, Chula Vista and South San Diego County.</p>
+			<p>Our online catalog provides information about our collections, with some selected digitized items. We hope the community will use this resource to learn more about local history and as a starting point for research. If you have any questions about our materials or would like to do in-person research, please contact our archivist.</p>
+			<p>Please keep in mind that our online catalog is a work in progress and represents only a portion of our collection. Our archival materials are open to the public for research by appointment.</p>
+		</div><!--end col-sm-12-->
 	</div><!-- end row -->
