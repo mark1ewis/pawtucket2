@@ -28,10 +28,6 @@
  
 	$va_browse_types = caGetBrowseTypes(array('forMenuBar' => true));
 	$o_config = caGetBrowseConfig();
-	
-	# Works (occurrences) submenu item is hidden from the Browse menu for now.
-	# To re-enable Works in the Browse menu, comment out or remove the unset below:
-	unset($va_browse_types['occurrences']);
 
 	if(is_array($va_browse_types) && sizeof($va_browse_types)){
 		if (!($vs_format = $o_config->get("browseMenuFormat"))) { $vs_format = $o_config->get("browse_menu_format"); }
