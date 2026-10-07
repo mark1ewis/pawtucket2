@@ -41,6 +41,21 @@
 	# --- get the collection hierarchy parent to use for exportin finding aid
 	$vn_top_level_collection_id = array_shift($t_item->get('ca_collections.hierarchy.collection_id', array("returnWithStructure" => true)));
 
+	# --- get representations attached directly to this collection
+	$va_all_reps = $t_item->findRepresentations(array("checkAccess" => caGetUserAccessValues($this->request), "version" => "icon"));
+	$va_doc_reps = array();
+	$va_img_reps = array();
+	if (is_array($va_all_reps)) {
+		foreach ($va_all_reps as $va_rep) {
+			$vs_mimetype = $va_rep['mimetype'] ?? '';
+			$vs_media_class = caGetMediaClass($vs_mimetype);
+			if ($vs_media_class === 'document' || $vs_mimetype === 'application/pdf') {
+				$va_doc_reps[] = $va_rep;
+			} elseif ($vs_media_class === 'image') {
+				$va_img_reps[] = $va_rep;
+			}
+		}
+	}
 ?>
 <div class="row">
 	<div class='col-xs-12 navTop'><!--- only shown at small screen size -->
@@ -106,6 +121,81 @@
 				</div><!-- end col -->
 				<div class='col-md-6 col-lg-6'>
 <?php
+					# Visual media representation viewer (if collection has image representations)
+					if (sizeof($va_img_reps) > 0) {
+?>
+					<div class="unit visualMediaViewer">
+						<?= caRepresentationViewer($this->request, $t_item, $t_item, array(
+							'display' => 'detail',
+							'showAnnotations' => false,
+							'representationViewerShowOnlyMediaTypes' => array('image/*'),
+							'primaryOnly' => false,
+							'dontShowPlaceholder' => true,
+							'checkAccess' => caGetUserAccessValues($this->request)
+						)); ?>
+<?php
+						if (sizeof($va_img_reps) > 1) {
+							print caObjectRepresentationThumbnails($this->request, $this->getVar("representation_id"), $t_item, array(
+								'returnAs' => 'bsCols',
+								'linkTo' => 'basic',
+								'bsColClasses' => 'smallpadding col-sm-3 col-md-3 col-xs-4',
+								'showOnlyMediaTypes' => array('image/*')
+							));
+						}
+?>
+					</div>
+<?php
+					}
+
+					# Attached Documents (if collection has document / PDF representations)
+					if (sizeof($va_doc_reps) > 0) {
+?>
+					<div class="unit attachedDocuments">
+						<label><?= _t('Attached Documents'); ?></label>
+<?php
+						foreach ($va_doc_reps as $va_doc) {
+							$vn_rep_id = (int)$va_doc['representation_id'];
+							$vs_filename = $va_doc['original_filename'] ?: ($va_doc['label'] && $va_doc['label'] !== '[BLANK]' ? $va_doc['label'] : _t('Document %1', $vn_rep_id));
+							
+							$vs_view_url = $va_doc['urls']['original'] ?? '';
+							if (!$vs_view_url && $vn_rep_id) {
+								$t_rep = new ca_object_representations($vn_rep_id);
+								$vs_view_url = $t_rep->getMediaUrl('media', 'original');
+							}
+							
+							$vs_download_url = caNavUrl($this->request, '', 'Detail', 'DownloadRepresentation', array(
+								'context' => 'collections',
+								'representation_id' => $vn_rep_id,
+								'id' => $t_item->getPrimaryKey(),
+								'download' => 1,
+								'version' => 'original'
+							));
+							
+							$vn_bytes = $va_doc['info']['original']['PROPERTIES']['filesize'] ?? null;
+							$vs_filesize = ($vn_bytes && $vn_bytes > 0) ? caFormatFileSize($vn_bytes) : '';
+							$vn_pages = (int)($va_doc['info']['original']['PROPERTIES']['pages'] ?? 0);
+							$va_file_meta = array();
+							if ($vs_filesize) { $va_file_meta[] = $vs_filesize; }
+							if ($vn_pages > 1) { $va_file_meta[] = $vn_pages . ' ' . _t('pages'); }
+							$vs_meta_text = sizeof($va_file_meta) ? ' <span class="text-muted small">(' . join(', ', $va_file_meta) . ')</span>' : '';
+?>
+						<p style="margin-bottom: 8px;">
+							<span class="glyphicon glyphicon-file" aria-hidden="true"></span>
+							<a href="<?= $vs_view_url; ?>" target="_blank" rel="noopener noreferrer" title="<?= _t('Open %1 in PDF viewer', htmlspecialchars($vs_filename)); ?>">
+								<strong><?= htmlspecialchars($vs_filename); ?></strong>
+							</a>
+							<?= $vs_meta_text; ?>
+							<a href="<?= $vs_download_url; ?>" class="small text-muted" style="margin-left: 8px;" title="<?= _t('Download %1', htmlspecialchars($vs_filename)); ?>">
+								<span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span> <?= _t('Download'); ?>
+							</a>
+						</p>
+<?php
+						}
+?>
+					</div>
+<?php
+					}
+
 					if ($vs_entities = $t_item->getWithTemplate('<unit relativeTo="ca_entities" delimiter=""><div class="unit"><label>^relationship_typename</label><l>^ca_entities.preferred_labels</l></div></unit>')) {
 						print $vs_entities;
 					}
